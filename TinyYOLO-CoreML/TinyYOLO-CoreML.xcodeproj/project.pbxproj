@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		208C62FF205AD8C3000B3693 /* VideoPreviewer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 208C62FE205AD8AA000B3693 /* VideoPreviewer.framework */; };
+		208C6300205AD8C3000B3693 /* VideoPreviewer.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 208C62FE205AD8AA000B3693 /* VideoPreviewer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7B9F8D4A1EF2CDA700F913BD /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B9F8D491EF2CDA700F913BD /* Helpers.swift */; };
 		7BA1C6D01EF27DA000BB25EF /* VideoCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC25FB51EF27C0D002ECBBA /* VideoCapture.swift */; };
 		7BA1C6D21EF2827800BB25EF /* UIImage+CVPixelBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA1C6D11EF2827500BB25EF /* UIImage+CVPixelBuffer.swift */; };
@@ -19,9 +21,45 @@
 		7BC25FA71EF1B7D1002ECBBA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BC25FA51EF1B7D1002ECBBA /* Main.storyboard */; };
 		7BC25FA91EF1B7D1002ECBBA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7BC25FA81EF1B7D1002ECBBA /* Assets.xcassets */; };
 		7BC25FB41EF1CEB0002ECBBA /* TinyYOLO.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 7BC25FB31EF1CEAE002ECBBA /* TinyYOLO.mlmodel */; };
+		B866EC469174D47755711C06 /* Pods_TinyYOLO_CoreML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DDCCE7D95419A82D0582655 /* Pods_TinyYOLO_CoreML.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		208C62FD205AD8AA000B3693 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 208C62F9205AD8AA000B3693 /* VideoPreviewer.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 02A543FD1C3C51CB0083C11B;
+			remoteInfo = VideoPreviewer;
+		};
+		208C6301205AD8C3000B3693 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 208C62F9205AD8AA000B3693 /* VideoPreviewer.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 02A543FC1C3C51CB0083C11B;
+			remoteInfo = VideoPreviewer;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		208C6303205AD8C4000B3693 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				208C6300205AD8C3000B3693 /* VideoPreviewer.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		208C62F9205AD8AA000B3693 /* VideoPreviewer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = VideoPreviewer.xcodeproj; path = VideoPreviewer/VideoPreviewer.xcodeproj; sourceTree = "<group>"; };
+		3DDCCE7D95419A82D0582655 /* Pods_TinyYOLO_CoreML.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TinyYOLO_CoreML.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		41D2B0B199F176540E382FFA /* Pods-TinyYOLO-CoreML.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TinyYOLO-CoreML.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TinyYOLO-CoreML/Pods-TinyYOLO-CoreML.debug.xcconfig"; sourceTree = "<group>"; };
+		7175B9308E627E9CDADD6F77 /* Pods-TinyYOLO-CoreML.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TinyYOLO-CoreML.release.xcconfig"; path = "Pods/Target Support Files/Pods-TinyYOLO-CoreML/Pods-TinyYOLO-CoreML.release.xcconfig"; sourceTree = "<group>"; };
 		7B9F8D491EF2CDA700F913BD /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Helpers.swift; path = ../../Common/Helpers.swift; sourceTree = "<group>"; };
 		7BA1C6D11EF2827500BB25EF /* UIImage+CVPixelBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+CVPixelBuffer.swift"; sourceTree = "<group>"; };
 		7BA1C6D51EF2861400BB25EF /* BoundingBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BoundingBox.swift; path = ../../Common/BoundingBox.swift; sourceTree = "<group>"; };
@@ -43,17 +81,38 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				208C62FF205AD8C3000B3693 /* VideoPreviewer.framework in Frameworks */,
+				B866EC469174D47755711C06 /* Pods_TinyYOLO_CoreML.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		208C62FA205AD8AA000B3693 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				208C62FE205AD8AA000B3693 /* VideoPreviewer.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4255576B82413E9F82C40B5C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				208C62F9205AD8AA000B3693 /* VideoPreviewer.xcodeproj */,
+				3DDCCE7D95419A82D0582655 /* Pods_TinyYOLO_CoreML.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		7BC25F951EF1B7D1002ECBBA = {
 			isa = PBXGroup;
 			children = (
 				7BC25FA01EF1B7D1002ECBBA /* TinyYOLO-CoreML */,
 				7BC25F9F1EF1B7D1002ECBBA /* Products */,
+				9951D5D9C7819BBD08A705B2 /* Pods */,
+				4255576B82413E9F82C40B5C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -85,6 +144,15 @@
 			path = "TinyYOLO-CoreML";
 			sourceTree = "<group>";
 		};
+		9951D5D9C7819BBD08A705B2 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				41D2B0B199F176540E382FFA /* Pods-TinyYOLO-CoreML.debug.xcconfig */,
+				7175B9308E627E9CDADD6F77 /* Pods-TinyYOLO-CoreML.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -92,13 +160,18 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7BC25FB01EF1B7D1002ECBBA /* Build configuration list for PBXNativeTarget "TinyYOLO-CoreML" */;
 			buildPhases = (
+				B4B14EA41B575061CAE12320 /* [CP] Check Pods Manifest.lock */,
 				7BC25F9A1EF1B7D1002ECBBA /* Sources */,
 				7BC25F9B1EF1B7D1002ECBBA /* Frameworks */,
 				7BC25F9C1EF1B7D1002ECBBA /* Resources */,
+				86CF409330DA55C5A5AB2B18 /* [CP] Embed Pods Frameworks */,
+				51C3C1F0F73E3FE644E4733C /* [CP] Copy Pods Resources */,
+				208C6303205AD8C4000B3693 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				208C6302205AD8C3000B3693 /* PBXTargetDependency */,
 			);
 			name = "TinyYOLO-CoreML";
 			productName = "TinyYOLO-CoreML";
@@ -131,12 +204,28 @@
 			mainGroup = 7BC25F951EF1B7D1002ECBBA;
 			productRefGroup = 7BC25F9F1EF1B7D1002ECBBA /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 208C62FA205AD8AA000B3693 /* Products */;
+					ProjectRef = 208C62F9205AD8AA000B3693 /* VideoPreviewer.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				7BC25F9D1EF1B7D1002ECBBA /* TinyYOLO-CoreML */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		208C62FE205AD8AA000B3693 /* VideoPreviewer.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = VideoPreviewer.framework;
+			remoteRef = 208C62FD205AD8AA000B3693 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		7BC25F9C1EF1B7D1002ECBBA /* Resources */ = {
@@ -150,6 +239,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		51C3C1F0F73E3FE644E4733C /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TinyYOLO-CoreML/Pods-TinyYOLO-CoreML-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		86CF409330DA55C5A5AB2B18 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TinyYOLO-CoreML/Pods-TinyYOLO-CoreML-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B4B14EA41B575061CAE12320 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		7BC25F9A1EF1B7D1002ECBBA /* Sources */ = {
@@ -169,6 +306,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		208C6302205AD8C3000B3693 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = VideoPreviewer;
+			targetProxy = 208C6301205AD8C3000B3693 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		7BC25FA51EF1B7D1002ECBBA /* Main.storyboard */ = {
@@ -287,13 +432,16 @@
 		};
 		7BC25FB11EF1B7D1002ECBBA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 41D2B0B199F176540E382FFA /* Pods-TinyYOLO-CoreML.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = MGCEKGP4Y4;
+				DEVELOPMENT_TEAM = LZJC3WZY9H;
+				ENABLE_BITCODE = NO;
 				GCC_OPTIMIZATION_LEVEL = s;
+				HEADER_SEARCH_PATHS = "\"${PODS_ROOT}/Headers/Public\"";
 				INFOPLIST_FILE = "TinyYOLO-CoreML/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "net.machinethink.TinyYOLO-CoreML";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.machinethink.TinyYOLO-CoreML-test";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 4.0;
@@ -303,12 +451,15 @@
 		};
 		7BC25FB21EF1B7D1002ECBBA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7175B9308E627E9CDADD6F77 /* Pods-TinyYOLO-CoreML.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = MGCEKGP4Y4;
+				DEVELOPMENT_TEAM = LZJC3WZY9H;
+				ENABLE_BITCODE = NO;
+				HEADER_SEARCH_PATHS = "\"${PODS_ROOT}/Headers/Public\"";
 				INFOPLIST_FILE = "TinyYOLO-CoreML/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "net.machinethink.TinyYOLO-CoreML";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.machinethink.TinyYOLO-CoreML-test";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
