@@ -3,15 +3,12 @@ import Vision
 import AVFoundation
 import CoreMedia
 import VideoToolbox
+import DJISDK
+import VideoPreviewer
 
 class ViewController: UIViewController {
-  @IBOutlet weak var videoPreview: UIView!
-  @IBOutlet weak var timeLabel: UILabel!
-  @IBOutlet weak var debugImageView: UIImageView!
 
   let yolo = YOLO()
-
-  var videoCapture: VideoCapture!
   var request: VNCoreMLRequest!
   var startTimes: [CFTimeInterval] = []
 
@@ -27,22 +24,29 @@ class ViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-
-    timeLabel.text = ""
-
     setUpBoundingBoxes()
     setUpCoreImage()
     setUpVision()
+    
     setUpCamera()
 
     frameCapturingStartTime = CACurrentMediaTime()
+    DJISDKManager.registerApp(with: self)
   }
 
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
     print(#function)
   }
-
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if let camera = fetchCamera(), let delegate = camera.delegate {
+            if let _ = delegate as? ViewController {
+                camera.delegate = nil
+            }
+        }
+        resetVideoPreview()
+    }
   // MARK: - Initialization
 
   func setUpBoundingBoxes() {
@@ -86,41 +90,14 @@ class ViewController: UIViewController {
   }
 
   func setUpCamera() {
-    videoCapture = VideoCapture()
-    videoCapture.delegate = self
-    videoCapture.fps = 50
-    videoCapture.setUp(sessionPreset: AVCaptureSession.Preset.vga640x480) { success in
-      if success {
-        // Add the video preview into the UI.
-        if let previewLayer = self.videoCapture.previewLayer {
-          self.videoPreview.layer.addSublayer(previewLayer)
-          self.resizePreviewLayer()
-        }
-
-        // Add the bounding box layers to the UI, on top of the video preview.
-        for box in self.boundingBoxes {
-          box.addToLayer(self.videoPreview.layer)
-        }
-
-        // Once everything is set up, we can start capturing live video.
-        self.videoCapture.start()
-      }
+    // Add the bounding box layers to the UI, on top of the video preview.
+    for box in self.boundingBoxes {
+        box.addToLayer(self.view.layer)
     }
-  }
-
-  // MARK: - UI stuff
-
-  override func viewWillLayoutSubviews() {
-    super.viewWillLayoutSubviews()
-    resizePreviewLayer()
   }
 
   override var preferredStatusBarStyle: UIStatusBarStyle {
     return .lightContent
-  }
-
-  func resizePreviewLayer() {
-    videoCapture.previewLayer?.frame = videoPreview.bounds
   }
 
   // MARK: - Doing inference
@@ -179,16 +156,7 @@ class ViewController: UIViewController {
 
   func showOnMainThread(_ boundingBoxes: [YOLO.Prediction], _ elapsed: CFTimeInterval) {
     DispatchQueue.main.async {
-      // For debugging, to make sure the resized CVPixelBuffer is correct.
-      //var debugImage: CGImage?
-      //VTCreateCGImageFromCVPixelBuffer(resizedPixelBuffer, nil, &debugImage)
-      //self.debugImageView.image = UIImage(cgImage: debugImage!)
-
       self.show(predictions: boundingBoxes)
-
-      let fps = self.measureFPS()
-      self.timeLabel.text = String(format: "Elapsed %.5f seconds - %.2f FPS", elapsed, fps)
-
       self.semaphore.signal()
     }
   }
@@ -239,22 +207,102 @@ class ViewController: UIViewController {
     }
   }
 }
-
-extension ViewController: VideoCaptureDelegate {
-  func videoCapture(_ capture: VideoCapture, didCaptureVideoFrame pixelBuffer: CVPixelBuffer?, timestamp: CMTime) {
-    // For debugging.
-    //predict(image: UIImage(named: "dog416")!); return
-
-    semaphore.wait()
-
-    if let pixelBuffer = pixelBuffer {
-      // For better throughput, perform the prediction on a background queue
-      // instead of on the VideoCapture queue. We use the semaphore to block
-      // the capture queue and drop frames when Core ML can't keep up.
-      DispatchQueue.global().async {
-        //self.predict(pixelBuffer: pixelBuffer)
-        self.predictUsingVision(pixelBuffer: pixelBuffer)
-      }
+extension ViewController: DJISDKManagerDelegate {
+    func appRegisteredWithError(_ error: Error?) {
+        if let error = error {
+            print(error)
+        }
+        else {
+            print("appRegistered success")
+            DJISDKManager.startConnectionToProduct()
+        }
     }
-  }
+    func productConnected(_ product: DJIBaseProduct?) {
+        guard let product = product else {
+            return
+        }
+        product.delegate = self
+        if let camera = fetchCamera() {
+            camera.delegate = self
+        }
+        setupVideoPreviewer()
+    }
+    func productDisconnected() {
+        if let camera = fetchCamera(), let delegate = camera.delegate {
+            if let _ = delegate as? ViewController {
+                camera.delegate = nil
+            }
+        }
+        resetVideoPreview()
+    }
+}
+extension ViewController: DJICameraDelegate {
+    
+}
+extension ViewController: DJIBaseProductDelegate {
+    
+}
+extension ViewController: DJIVideoFeedListener {
+    func videoFeed(_ videoFeed: DJIVideoFeed, didUpdateVideoData videoData: Data) {
+        let pointer = UnsafeMutablePointer<UInt8>.allocate(capacity: videoData.count)
+        videoData.copyBytes(to: pointer, count: videoData.count)
+        let instance = VideoPreviewer.instance()
+        instance?.push(pointer, length: Int32(videoData.count))
+        instance?.snapshotPreview() { image in
+            if let image  = image  {
+                self.predict(image: image)
+            }
+        }
+    }
+}
+extension ViewController {
+    func fetchCamera() -> DJICamera? {
+        guard let product = DJISDKManager.product() else {
+            return nil
+        }
+        if let aircraft = product as? DJIAircraft {
+            return aircraft.camera
+        }
+        if let handheld = product as? DJIHandheld {
+            return handheld.camera
+        }
+        return nil
+    }
+    func setupVideoPreviewer() {
+        guard let instance = VideoPreviewer.instance() else {
+            return
+        }
+        instance.setView(view)
+        guard let product = DJISDKManager.product() else {
+            return
+        }
+        if product.model == DJIAircraftModelNameA3 ||
+            product.model == DJIAircraftModelNameN3 ||
+            product.model == DJIAircraftModelNameMatrice600 ||
+            product.model == DJIAircraftModelNameMatrice600Pro {
+            DJISDKManager.videoFeeder()?.secondaryVideoFeed.add(self, with: nil)
+        }
+        else {
+            DJISDKManager.videoFeeder()?.primaryVideoFeed.add(self, with: nil)
+        }
+        instance.start()
+        DispatchQueue.main.async {
+            instance.type = .fullWindow
+        }
+    }
+    func resetVideoPreview() {
+        VideoPreviewer.instance().unSetView()
+        guard let product = DJISDKManager.product() else {
+            return
+        }
+        if product.model == DJIAircraftModelNameA3 ||
+            product.model == DJIAircraftModelNameN3 ||
+            product.model == DJIAircraftModelNameMatrice600 ||
+            product.model == DJIAircraftModelNameMatrice600Pro {
+            DJISDKManager.videoFeeder()?.secondaryVideoFeed.remove(self)
+        }
+        else {
+            DJISDKManager.videoFeeder()?.primaryVideoFeed.remove(self)
+        }
+    }
 }
